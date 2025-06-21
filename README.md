@@ -15,7 +15,7 @@ A smart embedded greenhouse system that automates environmental monitoring, weat
 ## 📸 Project Screenshots
 
 ### 🧠 Chatbot for Agricultural Help
-<img src="assets/chatbot.png" alt="Chatbot Interface" width="700"/>
+<img src="web/chatbot.png" alt="Chatbot Interface" width="700"/>
 
 > Gemini-powered chatbot to assist farmers with agricultural queries in natural language.
 
