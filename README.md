@@ -22,42 +22,42 @@ A smart embedded greenhouse system that automates environmental monitoring, weat
 ---
 
 ### 📊 Dashboard Monitoring
-<img src="assets/dashboard.png" alt="Sensor Dashboard" width="700"/>
+<img src="web/dashboard.png" alt="Sensor Dashboard" width="700"/>
 
 > Real-time sensor readings of temperature, humidity, light intensity, and soil moisture.
 
 ---
 
 ### 🔌 Farm Control System
-<img src="assets/Farm control.png" alt="Farm Control System" width="700"/>
+<img src="web/Farm control.png" alt="Farm Control System" width="700"/>
 
 > Control irrigation and fan systems remotely using relays and Raspberry Pi.
 
 ---
 
 ### 🌾 Disease Prediction Model
-<img src="assets/model.png" alt="Disease Detection Model" width="700"/>
+<img src="web/model.png" alt="Disease Detection Model" width="700"/>
 
 > Upload leaf images to detect crop diseases using a trained CNN model.
 
 ---
 
 ### 🌦️ Weather Forecast Integration
-<img src="assets/Weather.png" alt="Weather Forecast" width="700"/>
+<img src="web/Weather.png" alt="Weather Forecast" width="700"/>
 
 > Fetches and displays weather forecast using Google Weather API for predictive control.
 
 ---
 
 ### 💻 Web Interface
-<img src="assets/web interface.png" alt="Web Dashboard UI" width="700"/>
+<img src="web/web interface.png" alt="Web Dashboard UI" width="700"/>
 
 > Easy-to-use web UI built with HTML/CSS/JS for farmers to interact with the system.
 
 ---
 
 ### 🏡 Implemented Greenhouse Prototype
-<img src="assets/implementedgreenhouse.jpg" alt="Greenhouse Prototype" width="700"/>
+<img src="web/implementedgreenhouse.jpg" alt="Greenhouse Prototype" width="700"/>
 
 > Actual prototype built using sensors, relays, camera, and a greenhouse structure.
 
