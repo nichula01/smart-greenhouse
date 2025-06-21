@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Analysis</title>
+    <link rel="stylesheet" href="weather.css">
+</head>
+<body>
+    <div class="weather-container">
+        <h1>Weather Analysis</h1>
+        <div class="weather-info">
+            <h2>Current Weather</h2>
+            <p>Get accurate weather information to make informed decisions for your farm.</p>
+            <div class="weather-card">
+                <h2 id="location">Location: --</h2>
+                <p><strong>Temperature:</strong> <span id="temp">--</span>°C</p>
+                <p><strong>Humidity:</strong> <span id="humidity">--</span>%</p>
+                <p><strong>Wind Speed:</strong> <span id="wind">--</span> m/s</p>
+                <p><strong>Weather Condition:</strong> <span id="condition">--</span></p>
+                <p><strong>Pressure:</strong> <span id="pressure">--</span> hPa</p>
+                <p><strong>Sunrise:</strong> <span id="sunrise">--</span></p>
+                <p><strong>Sunset:</strong> <span id="sunset">--</span></p>
+            </div>
+        </div>
+        
+        <div class="forecast-container">
+            <h2>5-Day Forecast</h2>
+            <div class="forecast-grid" id="forecast"></div>
+        </div>
+        
+        <div class="back-button">
+            <a href="services.html">Back</a>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 Smart Farming Solutions. All rights reserved.
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

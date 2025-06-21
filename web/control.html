@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Control</title>
+    <link rel="stylesheet" href="control.css">
+    <script src="https://unpkg.com/lucide@latest"></script> 
+</head>
+<body>
+    <div class="container">
+        <h1>Farm Control</h1>
+        <p class="intro">
+            Manage your farm's essential systems with ease. Control fans, lights, water supply, the greenhouse door, and the alarm system 
+            to maintain optimal conditions for your crops and livestock.
+        </p>
+
+        <!-- Control Sections -->
+        <div class="controls">
+            <!-- Fan Control -->
+            <div class="control">
+                <div class="icon"><i data-lucide="wind"></i></div>
+                <h2>Fan Control</h2>
+                <div class="buttons">
+                    <button class="on-button">ON</button>
+                    <button class="off-button">OFF</button>
+                </div>
+            </div>
+
+            <!-- Light Control -->
+            <div class="control">
+                <div class="icon"><i data-lucide="sun"></i></div>
+                <h2>Light Control</h2>
+                <div class="buttons">
+                    <button class="on-button">ON</button>
+                    <button class="off-button">OFF</button>
+                </div>
+            </div>
+
+            <!-- Water Supply -->
+            <div class="control">
+                <div class="icon"><i data-lucide="droplet"></i></div>
+                <h2>Water Supply</h2>
+                <div class="buttons">
+                    <button class="on-button">ON</button>
+                    <button class="off-button">OFF</button>
+                </div>
+            </div>
+
+            <!-- Greenhouse Door -->
+            <div class="control">
+                <div class="icon"><i data-lucide="door-open"></i></div>
+                <h2>Greenhouse Door</h2>
+                <div class="buttons">
+                    <button class="on-button">OPEN</button>
+                    <button class="off-button">CLOSE</button>
+                </div>
+            </div>
+
+            <!-- Alarm Trigger -->
+            <div class="control">
+                <div class="icon"><i data-lucide="alert-triangle"></i></div>
+                <h2>Alarm Trigger</h2>
+                <div class="buttons">
+                    <button class="on-button">ON</button>
+                    <button class="off-button">OFF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="smartMonitoring.html">Back</a>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons(); 
+    </script>
+</body>
+</html>

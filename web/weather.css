@@ -1,0 +1,198 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url(img/weather2.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0 1rem;
+    
+}
+
+/* Animation for Background Change */
+@keyframes backgroundChange {
+    0% {
+        background-image: url(img/weather\ 2.jpeg);
+    }
+    50% {
+        background-image: url(img/weather\ 3.jpeg);
+    }
+    100% {
+        background-image: url(img/weather\ 2.jpeg);
+    }
+}
+
+/* Weather Container */
+.weather-container {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 1000px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    text-align: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* Heading Styles */
+.weather-container h1 {
+    color: #008000;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    animation: slideIn 1s ease-in-out;
+}
+
+/* Weather Info Section */
+.weather-info {
+    margin-bottom: 2rem;
+}
+
+.weather-info h2 {
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.weather-info p {
+    color: #555;
+    font-size: 1.1rem;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Weather Card */
+.weather-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    margin: 1rem auto;
+    max-width: 500px;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.weather-card:hover {
+    transform: scale(1);
+}
+
+.weather-card h2,
+.weather-card p {
+    margin: 0.5rem 0;
+}
+
+/* Forecast Container */
+.forecast-container {
+    margin-top: 2rem;
+}
+
+.forecast-grid {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Forecast Cards */
+.forecast-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 150px;
+    transition: transform 0.3s ease;
+}
+
+.forecast-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.forecast-card img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Back Button */
+.back-button {
+    margin-top: 1.5rem;
+}
+
+.back-button a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #008000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.back-button a:hover {
+    background-color: #005500;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f2f2f2;
+    color: #333;
+    margin-top: auto;
+    animation: fadeInUp 1.5s ease-out;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .forecast-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .weather-container {
+        width: 90%;
+    }
+
+    .forecast-card {
+        padding: 10px;
+    }
+}

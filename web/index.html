@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Integrated Smart Farming</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("img/background2.jpeg"); 
+            background-size: cover;
+            background-attachment: fixed;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* Updated Navbar Styles */
+        .navbar {
+            background-color: rgba(31, 150, 31, 0.567);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            text-size-adjust: 100%;
+        }
+        
+        .nav-item {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-item:hover {
+            color: white;
+        }
+        
+        .nav-item:hover::after {
+            width: 80%;
+            left: 10%;
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 5px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .btn-outline {
+            color: white;
+            border: 2px solid white;
+            background-color: transparent;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .btn-solid {
+            background-color: white;
+            color: #008000;
+            border: 2px solid white;
+        }
+        
+        .btn-solid:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Media query for responsive design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+                flex-wrap: wrap;
+            }
+            
+            .nav-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                margin-top: 0.5rem;
+                overflow-x: auto;
+                white-space: nowrap;
+                padding-bottom: 0.5rem;
+            }
+            
+            .auth-buttons {
+                margin-left: auto;
+            }
+        }
+        
+        /* Original styles below (unchanged) */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            flex: 1;
+        }
+        .hero img {
+            max-width: 100%;
+            height: 500px;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+        }
+        .hero h1 {
+            color: #008000;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        .hero button {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            color: white;
+            background-color: #008000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hero button:hover {
+            background-color: #004d00;
+        }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #f2f2f2;
+            color: #333;
+            margin-top: auto;
+        }
+            /* Chatbot Styles */
+        #chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #00c853, #008000);
+            color: white;
+            font-size: 26px;
+            padding: 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease-in-out;
+        }
+
+        #chat-icon:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, #008000, #004d00);
+        }
+
+        #chatbot {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            height: 450px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #chat-header {
+            background: linear-gradient(135deg, #00c853, #008000);
+            color: white;
+            padding: 12px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            font-size: 18px;
+        }
+
+        #chat-header span {
+            position: absolute;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        #chat-body {
+            height: 320px;
+            overflow-y: auto;
+            padding: 15px;
+            font-size: 14px;
+            color: #333;
+            scrollbar-width: thin;
+            scrollbar-color: #008000 transparent;
+        }
+
+        #chat-body::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        #chat-body::-webkit-scrollbar-thumb {
+            background: #008000;
+            border-radius: 10px;
+        }
+
+        #chat-input-container {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #chat-input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+            border-radius: 10px;
+        }
+
+        #chat-input::placeholder {
+            color: #666;
+        }
+
+        #chat-input-container button {
+            background: linear-gradient(135deg, #00c853, #008000);
+            color: white;
+            border: none;
+            margin-left: 10px;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #chat-input-container button:hover {
+            background: linear-gradient(135deg, #008000, #004d00);
+        }
+
+        /* Chat Messages Styling */
+        #chat-body div {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            width: fit-content;
+            max-width: 80%;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+
+        #chat-body div strong {
+            color: #008000;
+        }
+
+        #chat-body div:last-child {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(0, 128, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #008000;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Updated Navbar Structure -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="img/logo.png" alt="Company Logo"> 
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-item">Home</a>
+            <a href="aboutus.html" class="nav-item">About Us</a>
+            <a href="services.html" class="nav-item">Services</a>
+            <a href="contactus.html" class="nav-item">Contact Us</a>
+        </div>
+        <div class="auth-buttons">
+            <a href="signup.html" class="btn btn-outline">Sign Up</a>
+            <a href="login.html" class="btn btn-solid">Login</a>
+        </div>
+    </div>
+    
+    <!-- Rest of the page (unchanged) -->
+    <div class="hero">
+        <img src="img/8b.jpeg" alt="Farming Image"> 
+        <h1>Welcome to Smart Farming</h1>
+        <p>Innovative AI solutions for efficient farming and monitoring powered by Google Gemini.</p>
+        <button>
+            <a href="learnmore.html" style="text-decoration: none; color: #ffffff;">Learn More</a></button>
+    </div>
+    <footer>
+        &copy; 2025 Smart Farming Solutions. All rights reserved.
+    </footer>
+    <div id="chat-icon" onclick="toggleChat()">💬</div>
+    <div id="chatbot">
+        <div id="chat-header">Farm Assist <span onclick="toggleChat()">✖</span></div>
+        <div id="chat-body"></div>
+        <div id="chat-input-container">
+            <input type="text" id="chat-input" placeholder="Ask about smart farming..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        // On load, show welcome message
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatBody = document.getElementById("chat-body");
+            chatBody.innerHTML = `<div><strong>Bot:</strong> Welcome to Smart Farming! I'm your Gemini-powered assistant. How can I help with your agricultural questions today?</div>`;
+        });
+
+        async function sendMessage() {
+            var inputField = document.getElementById("chat-input");
+            var message = inputField.value.trim();
+            if (message === "") return;
+
+            var chatBody = document.getElementById("chat-body");
+            chatBody.innerHTML += `<div><strong>You:</strong> ${message}</div>`;
+            
+            // Add loading indicator
+            chatBody.innerHTML += `<div id="loading-message"><strong>Bot:</strong> <span class="loading"></span></div>`;
+
+            inputField.value = "";
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+            try {
+                // Send request to the Gemini backend
+                const response = await fetch("http://localhost:3000/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                const reply = data.reply || "I'm unable to process that request.";
+
+                // Remove loading indicator and add response
+                const loadingElement = document.getElementById("loading-message");
+                if (loadingElement) {
+                    chatBody.removeChild(loadingElement);
+                }
+                
+                chatBody.innerHTML += `<div><strong>Bot:</strong> ${reply}</div>`;
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // Remove loading indicator and add error message
+                const loadingElement = document.getElementById("loading-message");
+                if (loadingElement) {
+                    chatBody.removeChild(loadingElement);
+                }
+                
+                chatBody.innerHTML += `<div><strong>Bot:</strong> Sorry, I'm having trouble connecting to the Gemini service. Please try again later.</div>`;
+            }
+            
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function toggleChat() {
+            var chatbot = document.getElementById("chatbot");
+            chatbot.style.display = chatbot.style.display === "none" || chatbot.style.display === "" ? "block" : "none";
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") sendMessage();
+        }
+    </script>
+</body>
+</html>

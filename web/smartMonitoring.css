@@ -1,0 +1,102 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url(img/weather2.jpeg); 
+    background-position: center;
+    background-attachment: fixed;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 0 1rem;
+}
+
+.smart-monitoring-container {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.smart-monitoring-container h1 {
+    color: #008000;
+    margin-bottom: 1rem;
+}
+
+.smart-monitoring-container p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card h3 {
+    color: #008000;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.card a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #008000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.card a:hover {
+    background-color: #005500;
+}
+
+.back-button {
+    margin-top: 2rem;
+}
+
+.back-button a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #008000;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.back-button a:hover {
+    background-color: #005500;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f2f2f2;
+    color: #333;
+    margin-top: auto;
+}

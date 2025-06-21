@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdoor Farm Monitoring System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background:url('img/outdoor.jpeg');
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2e5d1e;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 3em;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            font-family: 'Georgia', serif;
+            letter-spacing: 1px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        h1:hover {
+            transform: translateY(-5px);
+            color: #4a7a2d;
+        }
+
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h2 {
+            color: #4a7a2d;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .data-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        .gauge-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .gauge-column {
+            flex: 0 0 30%;
+        }
+        .chart-column {
+            flex: 0 0 65%;
+        }
+        .chart-container {
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .stats-box {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .stat-item {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            min-width: 80px;
+        }
+        .stat-value {
+            font-weight: bold;
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        @media (max-width: 768px) {
+            .flex-container {
+                flex-direction: column;
+            }
+            .gauge-column, .chart-column {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OutdoorFarm Monitoring System</h1>
+        
+        <!-- Temperature Section -->
+        <div class="section">
+            <h2>Temperature</h2>
+            <div class="flex-container">
+                <div class="gauge-column">
+                    <div class="gauge-container">
+                        <canvas id="tempGauge"></canvas>
+                    </div>
+                    <p><strong>Current Value:</strong> <span class="data-value" id="temperature">--</span> °C</p>
+                </div>
+                <div class="chart-column">
+                    <div class="chart-container">
+                        <canvas id="tempChart"></canvas>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stat-item">
+                            <div class="stat-value" id="temp-min">--</div>
+                            <div class="stat-label">Min (°C)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="temp-max">--</div>
+                            <div class="stat-label">Max (°C)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="temp-avg">--</div>
+                            <div class="stat-label">Avg (°C)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="temp-alerts">0</div>
+                            <div class="stat-label">Alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Humidity Section -->
+        <div class="section">
+            <h2>Humidity</h2>
+            <div class="flex-container">
+                <div class="gauge-column">
+                    <div class="gauge-container">
+                        <canvas id="humidityGauge"></canvas>
+                    </div>
+                    <p><strong>Current Value:</strong> <span class="data-value" id="humidity">--</span> %</p>
+                </div>
+                <div class="chart-column">
+                    <div class="chart-container">
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stat-item">
+                            <div class="stat-value" id="humidity-min">--</div>
+                            <div class="stat-label">Min (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="humidity-max">--</div>
+                            <div class="stat-label">Max (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="humidity-avg">--</div>
+                            <div class="stat-label">Avg (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="humidity-alerts">0</div>
+                            <div class="stat-label">Alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Soil Moisture Section -->
+        <div class="section">
+            <h2>Soil Moisture</h2>
+            <div class="flex-container">
+                <div class="gauge-column">
+                    <div class="gauge-container">
+                        <canvas id="soilMoistureGauge"></canvas>
+                    </div>
+                    <p><strong>Current Value:</strong> <span class="data-value" id="soilMoisture">--</span> %</p>
+                </div>
+                <div class="chart-column">
+                    <div class="chart-container">
+                        <canvas id="soilMoistureChart"></canvas>
+                    </div>
+                    <div class="stats-box">
+                        <div class="stat-item">
+                            <div class="stat-value" id="soil-min">--</div>
+                            <div class="stat-label">Min (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="soil-max">--</div>
+                            <div class="stat-label">Max (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="soil-avg">--</div>
+                            <div class="stat-label">Avg (%)</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="soil-alerts">0</div>
+                            <div class="stat-label">Alerts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Overview Dashboard Section (Updated) -->
+        <div class="section">
+            <h2>Outdoor Farm Overview</h2>
+            <div class="chart-container">
+                <canvas id="overviewChart"></canvas>
+            </div>
+            <div class="stats-box">
+                <div class="stat-item">
+                    <div class="stat-value" id="system-uptime">--</div>
+                    <div class="stat-label">Uptime (hrs)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="total-alerts">0</div>
+                    <div class="stat-label">Total Alerts</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="rainfall">0</div>
+                    <div class="stat-label">Rainfall (mm)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="sunlight">0</div>
+                    <div class="stat-label">Sunlight (hrs)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDSghoFd1RDhnZ_3s9VUsFzJblWDwLs41A",
+            authDomain: "smart-farming-82577.firebaseapp.com",
+            databaseURL: "https://smart-farming-82577-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "smart-farming-82577",
+            storageBucket: "smart-farming-82577.firebasestorage.app",
+            messagingSenderId: "904248604007",
+            appId: "1:904248604007:web:36e38dd012644b9f3eabc2",
+            measurementId: "G-G6Z7VBCME9"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Initialize Historical Data Storage
+        const historyLength = 20; // Number of historical data points to keep
+        const tempHistory = [];
+        const humidityHistory = [];
+        const soilMoistureHistory = [];
+        const timeLabels = [];
+        
+        let alertCounts = {
+            temperature: 0,
+            humidity: 0,
+            soilMoisture: 0
+        };
+        
+        let systemStats = {
+            uptime: 0,
+            rainfall: 0,
+            sunlight: 0
+        };
+        
+        // Set up system timer
+        setInterval(() => {
+            systemStats.uptime += 1/60; // Add one minute
+            document.getElementById('system-uptime').textContent = systemStats.uptime.toFixed(1);
+            
+            // Simulate rainfall and sunlight data for demo
+            if (Math.random() > 0.95) {
+                systemStats.rainfall += Math.round(Math.random() * 2);
+                document.getElementById('rainfall').textContent = systemStats.rainfall;
+            }
+            
+            if (new Date().getHours() >= 6 && new Date().getHours() <= 18) {
+                systemStats.sunlight += 1/60;
+                document.getElementById('sunlight').textContent = Math.round(systemStats.sunlight);
+            }
+        }, 60000); // Update every minute
+
+        // Initialize Gauges with new colors for outdoor farm theme
+        const createGauge = (ctx, gradientColors, maxValue) => {
+            const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+            gradient.addColorStop(0, gradientColors[0]);
+            gradient.addColorStop(1, gradientColors[1]);
+            
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [0, maxValue],
+                        backgroundColor: [gradient, '#F0F0F0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    rotation: 270,
+                    circumference: 180,
+                    cutout: '75%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        };
+
+        // Initialize Time Series Charts
+        const createTimeSeriesChart = (ctx, label, color, borderColor) => {
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: label,
+                        data: [],
+                        backgroundColor: color,
+                        borderColor: borderColor,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: {
+                            target: 'origin',
+                            above: color + '30', // Add transparency
+                        },
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        },
+                        x: {
+                            ticks: {
+                                maxRotation: 0,
+                                autoSkip: true,
+                                maxTicksLimit: 8
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        };
+
+        // Initialize Overview Chart
+        const createOverviewChart = (ctx) => {
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        {
+                            label: 'Temperature (°C)',
+                            data: [],
+                            borderColor: '#e67e22',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            yAxisID: 'y1'
+                        },
+                        {
+                            label: 'Humidity (%)',
+                            data: [],
+                            borderColor: '#3498db',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Soil Moisture (%)',
+                            data: [],
+                            borderColor: '#2ecc71',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            yAxisID: 'y'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    scales: {
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Humidity & Soil (%)'
+                            },
+                            min: 0,
+                            max: 100
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'Temp (°C)'
+                            },
+                            min: 0,
+                            max: 50,
+                            grid: {
+                                drawOnChartArea: false,
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    }
+                }
+            });
+        };
+    
+        // Temperature Gauge (Orange/Amber Gradient for outdoor heat)
+        const tempCtx = document.getElementById('tempGauge').getContext('2d');
+        const tempGauge = createGauge(tempCtx, ['#f39c12', '#e67e22'], 50);
+        const tempChartCtx = document.getElementById('tempChart').getContext('2d');
+        const tempChart = createTimeSeriesChart(tempChartCtx, 'Temperature (°C)', '#f39c12', '#e67e22');
+
+        // Humidity Gauge (Blue to Teal Gradient for outdoor moisture)
+        const humidityCtx = document.getElementById('humidityGauge').getContext('2d');
+        const humidityGauge = createGauge(humidityCtx, ['#3498db', '#2980b9'], 100);
+        const humidityChartCtx = document.getElementById('humidityChart').getContext('2d');
+        const humidityChart = createTimeSeriesChart(humidityChartCtx, 'Humidity (%)', '#3498db', '#2980b9');
+
+        // Soil Moisture Gauge (Green to Dark Green Gradient)
+        const soilMoistureCtx = document.getElementById('soilMoistureGauge').getContext('2d');
+        const soilMoistureGauge = createGauge(soilMoistureCtx, ['#2ecc71', '#27ae60'], 100);
+        const soilMoistureChartCtx = document.getElementById('soilMoistureChart').getContext('2d');
+        const soilMoistureChart = createTimeSeriesChart(soilMoistureChartCtx, 'Soil Moisture (%)', '#2ecc71', '#27ae60');
+        
+        // Overview Chart
+        const overviewChartCtx = document.getElementById('overviewChart').getContext('2d');
+        const overviewChart = createOverviewChart(overviewChartCtx);
+
+        function updateData(id, value) {
+            document.getElementById(id).textContent = value;
+        }
+        
+        function updateHistoricalData(value, historyArray, chart, minId, maxId, avgId, thresholdHigh, thresholdLow, alertId, alertType) {
+            const now = new Date();
+            const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+            
+            // Add new data point
+            historyArray.push(value);
+            if (historyArray.length > historyLength) {
+                historyArray.shift();
+            }
+            
+            // Generate time labels
+            if (timeLabels.length >= historyLength) {
+                timeLabels.shift();
+            }
+            timeLabels.push(timeString);
+            
+            // Update chart
+            chart.data.labels = [...timeLabels];
+            chart.data.datasets[0].data = [...historyArray];
+            chart.update();
+            
+            // Calculate and update stats
+            const min = Math.min(...historyArray);
+            const max = Math.max(...historyArray);
+            const avg = historyArray.reduce((sum, val) => sum + val, 0) / historyArray.length;
+            
+            document.getElementById(minId).textContent = min.toFixed(1);
+            document.getElementById(maxId).textContent = max.toFixed(1);
+            document.getElementById(avgId).textContent = avg.toFixed(1);
+            
+            // Check for alerts based on thresholds
+            if (value > thresholdHigh || value < thresholdLow) {
+                alertCounts[alertType]++;
+                document.getElementById(alertId).textContent = alertCounts[alertType];
+                document.getElementById('total-alerts').textContent = 
+                    alertCounts.temperature + alertCounts.humidity + 
+                    alertCounts.soilMoisture;
+            }
+            
+            // Update overview chart
+            updateOverviewChart();
+        }
+        
+        function updateOverviewChart() {
+            overviewChart.data.labels = [...timeLabels];
+            overviewChart.data.datasets[0].data = [...tempHistory];
+            overviewChart.data.datasets[1].data = [...humidityHistory];
+            overviewChart.data.datasets[2].data = [...soilMoistureHistory];
+            overviewChart.update();
+        }
+
+        // Firebase Listeners
+        onValue(ref(database, "sensorData/temperature"), (snapshot) => {
+            if (snapshot.exists()) {
+                let temp = snapshot.val();
+                updateData("temperature", temp);
+                tempGauge.data.datasets[0].data = [temp, 50 - temp];
+                tempGauge.update();
+                updateHistoricalData(temp, tempHistory, tempChart, 'temp-min', 'temp-max', 'temp-avg', 35, 15, 'temp-alerts', 'temperature');
+            }
+        });
+
+        onValue(ref(database, "sensorData/humidity"), (snapshot) => {
+            if (snapshot.exists()) {
+                let humidity = snapshot.val();
+                updateData("humidity", humidity);
+                humidityGauge.data.datasets[0].data = [humidity, 100 - humidity];
+                humidityGauge.update();
+                updateHistoricalData(humidity, humidityHistory, humidityChart, 'humidity-min', 'humidity-max', 'humidity-avg', 80, 40, 'humidity-alerts', 'humidity');
+            }
+        });
+
+        onValue(ref(database, "sensorData/soilMoisture"), (snapshot) => {
+            if (snapshot.exists()) {
+                let moisture = snapshot.val();
+                updateData("soilMoisture", moisture);
+                soilMoistureGauge.data.datasets[0].data = [moisture, 100 - moisture];
+                soilMoistureGauge.update();
+                updateHistoricalData(moisture, soilMoistureHistory, soilMoistureChart, 'soil-min', 'soil-max', 'soil-avg', 70, 20, 'soil-alerts', 'soilMoisture');
+            }
+        });
+        
+        // Initialize with some mock data if no data is received in 3 seconds
+        setTimeout(() => {
+            if (tempHistory.length === 0) {
+                // Generate mock data for demo purposes
+                for (let i = 0; i < 10; i++) {
+                    const hour = new Date().getHours();
+                    const minute = new Date().getMinutes() - (10 - i);
+                    const timeStr = hour + ':' + (minute < 10 ? '0' : '') + minute;
+                    timeLabels.push(timeStr);
+                    
+                    // Generate random values with slight variations
+                    const temp = 25 + Math.random() * 5;
+                    const humidity = 60 + Math.random() * 10;
+                    const moisture = 40 + Math.random() * 15;
+                    
+                    tempHistory.push(temp);
+                    humidityHistory.push(humidity);
+                    soilMoistureHistory.push(moisture);
+                }
+                
+                // Update all charts and gauges
+                updateData("temperature", tempHistory[tempHistory.length-1]);
+                tempGauge.data.datasets[0].data = [tempHistory[tempHistory.length-1], 50 - tempHistory[tempHistory.length-1]];
+                tempGauge.update();
+                tempChart.data.labels = [...timeLabels];
+                tempChart.data.datasets[0].data = [...tempHistory];
+                tempChart.update();
+                
+                updateData("humidity", humidityHistory[humidityHistory.length-1]);
+                humidityGauge.data.datasets[0].data = [humidityHistory[humidityHistory.length-1], 100 - humidityHistory[humidityHistory.length-1]];
+                humidityGauge.update();
+                humidityChart.data.labels = [...timeLabels];
+                humidityChart.data.datasets[0].data = [...humidityHistory];
+                humidityChart.update();
+                
+                updateData("soilMoisture", soilMoistureHistory[soilMoistureHistory.length-1]);
+                soilMoistureGauge.data.datasets[0].data = [soilMoistureHistory[soilMoistureHistory.length-1], 100 - soilMoistureHistory[soilMoistureHistory.length-1]];
+                soilMoistureGauge.update();
+                soilMoistureChart.data.labels = [...timeLabels];
+                soilMoistureChart.data.datasets[0].data = [...soilMoistureHistory];
+                soilMoistureChart.update();
+                
+                // Update statistics
+                document.getElementById('temp-min').textContent = Math.min(...tempHistory).toFixed(1);
+                document.getElementById('temp-max').textContent = Math.max(...tempHistory).toFixed(1);
+                document.getElementById('temp-avg').textContent = (tempHistory.reduce((sum, val) => sum + val, 0) / tempHistory.length).toFixed(1);
+                
+                document.getElementById('humidity-min').textContent = Math.min(...humidityHistory).toFixed(1);
+                document.getElementById('humidity-max').textContent = Math.max(...humidityHistory).toFixed(1);
+                document.getElementById('humidity-avg').textContent = (humidityHistory.reduce((sum, val) => sum + val, 0) / humidityHistory.length).toFixed(1);
+                
+                document.getElementById('soil-min').textContent = Math.min(...soilMoistureHistory).toFixed(1);
+                document.getElementById('soil-max').textContent = Math.max(...soilMoistureHistory).toFixed(1);
+                document.getElementById('soil-avg').textContent = (soilMoistureHistory.reduce((sum, val) => sum + val, 0) / soilMoistureHistory.length).toFixed(1);
+                
+                // Initialize overview chart
+                updateOverviewChart();
+                
+                // Initialize system uptime and add initial values for rainfall and sunlight
+                document.getElementById('system-uptime').textContent = '0.0';
+                document.getElementById('rainfall').textContent = '0';
+                document.getElementById('sunlight').textContent = '0';
+            }
+        }, 3000);
+    </script>
+</body>
+</html>

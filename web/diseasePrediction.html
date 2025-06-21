@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="diseaseprediction.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+           background: url('img/strawberrygreenhouse.jpeg');
+            margin: 0;
+            padding: 20px;
+        }
+        .disease-prediction-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #008000;
+        }
+        h2 {
+            color: #008000;
+        }
+        .upload-section {
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        #result-container {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+         /* prediction */
+         #predict-button {
+            padding: 10px 15px;
+            font-size: 16px;
+            background-color: #008000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+         }
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        .prediction-bar {
+            background-color: #28a745;
+            height: 20px;
+            border-radius: 3px;
+            transition: width 0.5s ease-in-out;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+        .back-button a {
+            text-decoration: none;
+            padding: 10px 15px;
+            background: #008000;
+            color: white;
+            border-radius: 5px;
+        }
+        .back-button a:hover {
+            background: #0056b3;
+        }
+        .loading {
+            display: none;
+            margin: 10px auto;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #28a745;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            margin: 10px auto;
+            display: none;
+            border-radius: 5px;
+        }
+        .features ul {
+            text-align: left;
+            padding-left: 30px;
+        }
+        footer {
+            position: fixed;
+            margin-top: 500px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="disease-prediction-container">
+        <h1>Strawberry Disease Prediction</h1>
+        <p>
+            Upload an image to analyze if your strawberry plant is healthy or affected by disease. 
+            Our AI model will provide accurate predictions to help ensure the health of your crops.
+        </p>
+
+        <!-- Features Section -->
+        <div class="features">
+            <h2>Features</h2>
+            <ul>
+                <li>AI-powered image analysis for disease detection</li>
+                <li>Supports various types of strawberry leaf diseases</li>
+                <li>Quick and accurate predictions</li>
+                <li>User-friendly interface for farmers</li>
+            </ul>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="upload-section">
+            <h2>Upload an Image</h2>
+            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage()">
+            <img id="image-preview" src="#" alt="Image Preview">
+            <div class="loading" id="loading-indicator"></div>
+            <button id="predict-button" onclick="predict()" disabled>Predict</button>
+            <p id="model-status">Loading model, please wait...</p>
+        </div>
+
+        <!-- Display Prediction Result -->
+        <div id="result-container"></div>
+
+        <!-- Back Button -->
+        <div class="back-button">
+            <a href="services.html">Back</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2025 Smart Farming Solutions. All rights reserved.
+    </footer>
+
+    <script>
+        // Replace with your actual Teachable Machine model URL
+        const URL = "https://teachablemachine.withgoogle.com/models/gUzQQqObi/";
+
+        let model, maxPredictions;
+        let isModelLoaded = false;
+
+        // Load the model when the page loads
+        window.addEventListener('DOMContentLoaded', async function() {
+            try {
+                document.getElementById('loading-indicator').style.display = 'block';
+                await loadModel();
+                document.getElementById('model-status').textContent = "Model loaded successfully!";
+                document.getElementById('predict-button').disabled = false;
+                isModelLoaded = true;
+            } catch (error) {
+                console.error("Error loading model:", error);
+                document.getElementById('model-status').textContent = "Error loading model. Please refresh the page.";
+            } finally {
+                document.getElementById('loading-indicator').style.display = 'none';
+            }
+        });
+
+        // Load the Teachable Machine model
+        async function loadModel() {
+            const modelURL = URL + "model.json";
+            const metadataURL = URL + "metadata.json";
+            
+            try {
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+                return true;
+            } catch (err) {
+                console.error("Failed to load model:", err);
+                throw err;
+            }
+        }
+
+        // Preview uploaded image
+        function previewImage() {
+            const input = document.getElementById('imageUpload');
+            const preview = document.getElementById('image-preview');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Enable predict button if model is loaded
+                    if (isModelLoaded) {
+                        document.getElementById('predict-button').disabled = false;
+                    }
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+                document.getElementById('predict-button').disabled = true;
+            }
+        }
+
+        // Function to Predict Image Upload
+        async function predict() {
+            const predictButton = document.getElementById('predict-button');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const resultContainer = document.getElementById('result-container');
+            
+            if (!isModelLoaded) {
+                alert("Model is still loading, please wait...");
+                return;
+            }
+
+            const input = document.getElementById("imageUpload");
+            if (!input.files || input.files.length === 0) {
+                alert("Please upload an image.");
+                return;
+            }
+
+            try {
+                // Disable button and show loading
+                predictButton.disabled = true;
+                loadingIndicator.style.display = 'block';
+                resultContainer.innerHTML = "";
+                
+                const img = document.getElementById('image-preview');
+                
+                // Ensure image is loaded
+                if (img.complete) {
+                    processPrediction(img);
+                } else {
+                    img.onload = function() {
+                        processPrediction(img);
+                    };
+                }
+            } catch (error) {
+                console.error("Prediction error:", error);
+                resultContainer.innerHTML = "<p style='color: red;'>Error making prediction. Please try again.</p>";
+                predictButton.disabled = false;
+                loadingIndicator.style.display = 'none';
+            }
+        }
+        
+        async function processPrediction(img) {
+            try {
+                const predictions = await model.predict(img);
+                
+                let resultHTML = "<h3>Prediction Results:</h3><div class='prediction-results'>";
+                
+                // Sort predictions by probability (highest first)
+                predictions.sort((a, b) => b.probability - a.probability);
+                
+                predictions.forEach((prediction) => {
+                    const percent = (prediction.probability * 100).toFixed(1);
+                    resultHTML += `
+                        <div class="prediction-item">
+                            <span>${prediction.className}</span>
+                            <span>${percent}%</span>
+                        </div>
+                        <div class="prediction-bar" style="width: ${percent}%"></div>
+                    `;
+                });
+                
+                resultHTML += "</div>";
+                
+                // Add recommendation based on top prediction
+                const topPrediction = predictions[0];
+                if (topPrediction.className.toLowerCase().includes("healthy")) {
+                    resultHTML += `<p style="color: green; margin-top: 15px;">Good news! Your plant appears to be healthy.</p>`;
+                } else {
+                    resultHTML += `<p style="color: #d9534f; margin-top: 15px;">
+  Your plant may have ${topPrediction.className}.
+</p>
+<button>
+  <a href="treatment.html" style="text-decoration: none; color: inherit;">Consider treatment options.</a>
+</button>`;
+                }
+                
+                document.getElementById('result-container').innerHTML = resultHTML;
+            } catch (error) {
+                console.error("Processing prediction error:", error);
+                document.getElementById('result-container').innerHTML = "<p style='color: red;'>Error processing prediction. Please try again.</p>";
+            } finally {
+                document.getElementById('predict-button').disabled = false;
+                document.getElementById('loading-indicator').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

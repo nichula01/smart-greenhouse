@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strawberry Diseases and Treatments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #008000;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-header {
+            padding: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #008000;
+            color: white;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-subtitle {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #008000;
+        }
+        .treatment-item {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .treatment-item:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #008000;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Strawberry Diseases and Treatments</h1>
+    
+    <div class="container">
+        <!-- Gray Mold Card -->
+        <div class="card">
+            <div class="card-header">Gray Mold (Botrytis cinerea)</div>
+            <div class="card-body">
+                <p>A fungal disease that affects strawberry fruits, flowers, and foliage, especially in wet weather conditions. It appears as gray fuzzy mold on affected plant parts.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">Gray fuzzy growth on fruits and flowers</div>
+                <div class="treatment-item">Soft, brown rot on berries</div>
+                <div class="treatment-item">Wilting flower petals with gray spores</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Improve air circulation by proper plant spacing</div>
+                <div class="treatment-item">Apply fungicides like captan or fenhexamid at flowering</div>
+                <div class="treatment-item">Remove infected plant material promptly</div>
+                <div class="treatment-item">Use drip irrigation instead of overhead watering</div>
+                <div class="treatment-item">Mulch under plants to prevent fruit contact with soil</div>
+            </div>
+        </div>
+        
+        <!-- Leaf Spot Card -->
+        <div class="card">
+            <div class="card-header">Leaf Spot (Mycosphaerella fragariae)</div>
+            <div class="card-body">
+                <p>A common fungal disease affecting strawberry foliage. It begins as small purple spots that develop tan or gray centers as the disease progresses.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">Small purple spots on leaves</div>
+                <div class="treatment-item">Spots develop lighter centers with age</div>
+                <div class="treatment-item">Severe infections may cause leaves to dry and curl</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Apply copper-based fungicides or myclobutanil</div>
+                <div class="treatment-item">Remove infected leaves during the growing season</div>
+                <div class="treatment-item">Use disease-free transplants when establishing new plantings</div>
+                <div class="treatment-item">Practice crop rotation (do not plant strawberries in the same area for 3-4 years)</div>
+                <div class="treatment-item">Avoid overhead irrigation to reduce leaf wetness</div>
+            </div>
+        </div>
+        
+        <!-- Anthracnose Fruit Rot Card -->
+        <div class="card">
+            <div class="card-header">Anthracnose Fruit Rot (Colletotrichum spp.)</div>
+            <div class="card-body">
+                <p>A serious fungal disease that can affect all parts of the strawberry plant. It's particularly destructive to fruits, causing sunken lesions and fruit rot.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">Sunken, dark lesions on fruits</div>
+                <div class="treatment-item">Salmon-colored spore masses in lesions</div>
+                <div class="treatment-item">Crown rot and wilting of entire plants</div>
+                <div class="treatment-item">Dark lesions on stems and petioles</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Use resistant cultivars when available</div>
+                <div class="treatment-item">Apply fungicides containing azoxystrobin or pyraclostrobin</div>
+                <div class="treatment-item">Use disease-free transplants</div>
+                <div class="treatment-item">Mulch to prevent soil splashing onto fruits</div>
+                <div class="treatment-item">Remove and destroy infected plants</div>
+                <div class="treatment-item">Rotate crops and avoid overhead irrigation</div>
+            </div>
+        </div>
+        
+        <!-- Angular Leafspot Card -->
+        <div class="card">
+            <div class="card-header">Angular Leafspot (Xanthomonas fragariae)</div>
+            <div class="card-body">
+                <p>A bacterial disease that causes water-soaked lesions on leaves. The name comes from how the spots are typically limited by leaf veins, creating angular shapes.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">Water-soaked, angular lesions on leaf undersides</div>
+                <div class="treatment-item">Spots appear translucent when held to light</div>
+                <div class="treatment-item">Lesions turn reddish-brown with age</div>
+                <div class="treatment-item">Yellow bacterial ooze may be visible in high humidity</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Apply copper-based bactericides early in the season</div>
+                <div class="treatment-item">Use disease-free planting material</div>
+                <div class="treatment-item">Practice good sanitation by removing infected leaves</div>
+                <div class="treatment-item">Avoid overhead irrigation and working with wet plants</div>
+                <div class="treatment-item">Rotate crops (3-year minimum between strawberry plantings)</div>
+            </div>
+        </div>
+        
+        <!-- Blossom Blight Card -->
+        <div class="card">
+            <div class="card-header">Blossom Blight (Botrytis cinerea)</div>
+            <div class="card-body">
+                <p>A form of gray mold that specifically targets strawberry blossoms, preventing fruit formation or causing young fruit to rot. Common in cool, wet spring conditions.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">Brown discoloration on flower petals and stamens</div>
+                <div class="treatment-item">Gray fuzzy growth on blossoms</div>
+                <div class="treatment-item">Blossoms turn brown and die without setting fruit</div>
+                <div class="treatment-item">Infection may spread to developing fruits</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Apply fungicides during flowering period</div>
+                <div class="treatment-item">Remove infected blossoms promptly</div>
+                <div class="treatment-item">Improve air circulation with proper spacing</div>
+                <div class="treatment-item">Use row covers to protect plants during wet weather</div>
+                <div class="treatment-item">Time irrigation to allow foliage to dry before evening</div>
+            </div>
+        </div>
+        
+        <!-- Powdery Mildew Card -->
+        <div class="card">
+            <div class="card-header">Powdery Mildew (Podosphaera aphanis)</div>
+            <div class="card-body">
+                <p>A fungal disease that appears as a white powdery coating on leaves, stems, flowers, and fruit. Unlike many diseases, it can thrive in both dry and humid conditions.</p>
+                
+                <div class="card-subtitle">Symptoms:</div>
+                <div class="treatment-item">White powdery growth on leaf surfaces</div>
+                <div class="treatment-item">Upward curling of leaf edges</div>
+                <div class="treatment-item">Reddish-purple blotches on leaves</div>
+                <div class="treatment-item">Stunted plant growth</div>
+                <div class="treatment-item">Poor fruit development</div>
+                
+                <div class="card-subtitle">Treatments:</div>
+                <div class="treatment-item">Apply sulfur-based fungicides or potassium bicarbonate</div>
+                <div class="treatment-item">Use resistant cultivars when available</div>
+                <div class="treatment-item">Improve air circulation by proper spacing</div>
+                <div class="treatment-item">Remove severely infected leaves</div>
+                <div class="treatment-item">Apply neem oil or other horticultural oils</div>
+                <div class="treatment-item">Avoid excessive nitrogen fertilization</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
